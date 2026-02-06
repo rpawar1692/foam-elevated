@@ -7,6 +7,8 @@ import ProductsCarousel from '@/components/home/ProductsCarousel';
 import TestimonialsSlider from '@/components/home/TestimonialsSlider';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 import AboutUsSection from '@/components/home/AboutUsSection';
+import BeforeAfterSection from '@/components/home/BeforeAfterSection';
+import ContactCTA from '@/components/home/ContactCTA';
 
 const Index = () => {
   return (
@@ -19,11 +21,13 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <AboutUsSection/>
+        <AboutUsSection />
+        <BeforeAfterSection />
         <ServicesPreview />
         <WhyChooseUs />
         <ProductsCarousel />
         <TestimonialsSlider />
+        <ContactCTA />
       </main>
       <Footer />
     </motion.div>

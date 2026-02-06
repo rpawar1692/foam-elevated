@@ -271,13 +271,13 @@ const ProductsCarousel = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
             >
               <Button 
                 size="lg" 
                 className="px-10 py-6 text-lg"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
               >
                 {t("viewAll")}
               </Button>

@@ -24,10 +24,10 @@ const Header = () => {
 
   const navLinks = [
     { path: '/', label: t('home') },
+    { path: '/about', label: t('about') },
     { path: '/services', label: t('services') },
     { path: '/shop', label: t('shop') },
     { path: '/packages', label: t('packages') },
-    { path: '/about', label: t('about') },
     { path: '/contact', label: t('contact') },
   ];
 
