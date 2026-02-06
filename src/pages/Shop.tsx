@@ -1,65 +1,74 @@
- import { useState } from 'react';
- import { motion, AnimatePresence } from 'framer-motion';
- import { ShoppingCart, X, Plus, Minus, Filter } from 'lucide-react';
- import { useLanguage } from '@/contexts/LanguageContext';
- import { useCart } from '@/contexts/CartContext';
- import Header from '@/components/layout/Header';
- import Footer from '@/components/layout/Footer';
- import { Button } from '@/components/ui/button';
- import { products } from '@/data/products';
- import { toast } from 'sonner';
- 
- const Shop = () => {
-   const { t, language } = useLanguage();
-   const { items, addItem, removeItem, updateQuantity, total } = useCart();
-   const [isCartOpen, setIsCartOpen] = useState(false);
-   const [selectedCategory, setSelectedCategory] = useState('all');
- 
-   const categories = [
-     { id: 'all', label: { en: 'All Products', ar: 'جميع المنتجات' } },
-     { id: 'cleaning', label: { en: 'Cleaning', ar: 'التنظيف' } },
-     { id: 'protection', label: { en: 'Protection', ar: 'الحماية' } },
-     { id: 'interior', label: { en: 'Interior', ar: 'الداخلية' } },
-     { id: 'accessories', label: { en: 'Accessories', ar: 'الإكسسوارات' } },
-   ];
- 
-   const filteredProducts =
-     selectedCategory === 'all'
-       ? products
-       : products.filter((p) => p.category === selectedCategory);
- 
-   const handleAddToCart = (product: typeof products[0]) => {
-     addItem(product);
-     toast.success(language === 'en' ? 'Added to cart!' : 'تمت الإضافة للسلة!');
-   };
- 
-   return (
-     <motion.div
-       initial={{ opacity: 0 }}
-       animate={{ opacity: 1 }}
-       exit={{ opacity: 0 }}
-       transition={{ duration: 0.5 }}
-     >
-       <Header />
-       <main className="pt-24">
-         {/* Hero Section */}
-         <section className="bg-secondary text-secondary-foreground py-16">
-           <div className="container-premium">
-             <motion.div
-               initial={{ opacity: 0, y: 30 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.6 }}
-               className="text-center"
-             >
-               <span className="text-primary font-semibold text-sm uppercase tracking-wider mb-4 block">
-                 {t('shop')}
-               </span>
-               <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                 {t('productsSubtitle')}
-               </h1>
-             </motion.div>
-           </div>
-         </section>
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ShoppingCart, X, Plus, Minus, Filter } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useCart } from '@/contexts/CartContext';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { Button } from '@/components/ui/button';
+import { products } from '@/data/products';
+import { toast } from 'sonner';
+import heroImage from '@/assets/hero-car-wash.jpg';
+
+const Shop = () => {
+  const { t, language } = useLanguage();
+  const { items, addItem, removeItem, updateQuantity, total } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', label: { en: 'All Products', ar: 'جميع المنتجات' } },
+    { id: 'cleaning', label: { en: 'Cleaning', ar: 'التنظيف' } },
+    { id: 'protection', label: { en: 'Protection', ar: 'الحماية' } },
+    { id: 'interior', label: { en: 'Interior', ar: 'الداخلية' } },
+    { id: 'accessories', label: { en: 'Accessories', ar: 'الإكسسوارات' } },
+  ];
+
+  const filteredProducts =
+    selectedCategory === 'all'
+      ? products
+      : products.filter((p) => p.category === selectedCategory);
+
+  const handleAddToCart = (product: typeof products[0]) => {
+    addItem(product);
+    toast.success(language === 'en' ? 'Added to cart!' : 'تمت الإضافة للسلة!');
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Header />
+      <main className="pt-24">
+        {/* Hero Banner */}
+        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${heroImage})` }}
+          >
+            <div className="absolute inset-0 bg-secondary/80" />
+          </div>
+          <div className="relative z-10 text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4"
+            >
+              {t('shop')}
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-6xl font-bold text-white"
+            >
+              {t('productsSubtitle')}
+            </motion.h1>
+          </div>
+        </section>
  
          {/* Shop Content */}
          <section className="section-padding bg-background">
