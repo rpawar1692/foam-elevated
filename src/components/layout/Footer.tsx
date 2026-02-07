@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Phone, MapPin, Mail, Clock, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo1.png';
 
 const Footer = () => {
   const { t, language } = useLanguage();

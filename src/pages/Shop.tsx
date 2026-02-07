@@ -42,7 +42,7 @@ const Shop = () => {
       transition={{ duration: 0.5 }}
     >
       <Header />
-      <main className="pt-24">
+      <main >
         {/* Hero Banner */}
         <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
           <div 

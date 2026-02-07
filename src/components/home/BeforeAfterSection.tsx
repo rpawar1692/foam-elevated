@@ -1,44 +1,85 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Droplet, Sparkles, Wind, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const BeforeAfterSection = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // -1 for left, 1 for right, 0 for initial
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const imageSets = [
+    {
+      before: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/Before_01.jpg',
+      after: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/After_01.jpg',
+      title: {
+        en: 'Trunk and Pile Rug Car Cleaning Service',
+        ar: 'خدمة تنظيف صندوق السيارة والسجاد'
+      },
+      description: {
+        en: 'Deep cleaning of trunk spaces and pile rugs to remove embedded dirt and stains.',
+        ar: 'تنظيف عميق لمساحات الصندوق والسجاد لإزالة الأوساخ والبقاء المترسخة.'
+      }
+    },
+    {
+      before: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/Before_02.jpg',
+      after: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/After_02.jpg',
+      title: {
+        en: 'Stain Removal and Upholstery Restoration',
+        ar: 'إزالة البقع واستعادة التنجيد'
+      },
+      description: {
+        en: 'Professional stain removal and restoration of car upholstery to like-new condition.',
+        ar: 'إزالة البقع المحترفة واستعادة تنجيد السيارة إلى حالة تشبه الجديدة.'
+      }
+    },
+    {
+      before: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/Before_04.jpg',
+      after: 'https://aqualine.like-themes.com/wp-content/uploads/2018/02/After_04.jpg',
+      title: {
+        en: 'Comprehensive Interior Detailing',
+        ar: 'تفصيل شامل للداخلية'
+      },
+      description: {
+        en: 'Complete interior detailing including dashboard, seats, carpets and all surfaces.',
+        ar: 'تفصيل داخلي كامل يشمل لوحة القيادة والمقاعد والسجاد وجميع الأسطح.'
+      }
+    }
+  ];
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging) handleMove(e.clientX);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (isDragging) handleMove(e.touches[0].clientX);
+    const percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPosition(percent);
   };
 
   useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', () => setIsDragging(false));
-      window.addEventListener('touchmove', handleTouchMove);
-      window.addEventListener('touchend', () => setIsDragging(false));
-    }
+    const move = (e: MouseEvent) => isDragging && handleMove(e.clientX);
+    const up = () => setIsDragging(false);
+
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', () => setIsDragging(false));
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', () => setIsDragging(false));
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
     };
   }, [isDragging]);
+
+  const handlePrev = () => {
+    setDirection(-1);
+    setCurrentImageIndex((prev) => (prev - 1 + imageSets.length) % imageSets.length);
+  };
+
+  const handleNext = () => {
+    setDirection(1);
+    setCurrentImageIndex((prev) => (prev + 1) % imageSets.length);
+  };
 
   const features = [
     {
@@ -68,148 +109,126 @@ const BeforeAfterSection = () => {
   ];
 
   return (
-    <section className="section-padding bg-secondary text-secondary-foreground overflow-hidden">
-      <div className="container-premium">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-3"
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-0.5 bg-primary" />
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                {language === 'en' ? 'Dry Cleaning' : 'التنظيف الجاف'}
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-              {language === 'en'
-                ? 'Dry cleaning any dirt inside the car and trunk'
-                : 'تنظيف جاف لأي أوساخ داخل السيارة والصندوق'}
-            </h2>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:bg-primary/90 transition-colors"
-            >
-              {t('learnMore')}
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-            
-            {/* Navigation arrows */}
-            <div className="flex gap-3 mt-8">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 rounded-full border-2 border-secondary-foreground/30 flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 rounded-full border-2 border-secondary-foreground/30 flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </motion.button>
-            </div>
-          </motion.div>
+    <section className="relative bg-secondary text-secondary-foreground py-32 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-          {/* Center - Before/After Slider */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-5 relative"
-          >
-            {/* BEFORE / AFTER Labels */}
-            <div className="absolute -top-4 left-0 right-0 flex justify-between text-6xl md:text-7xl font-bold opacity-10 pointer-events-none z-0">
-              <span>BEFORE</span>
-            </div>
-            <div className="absolute -bottom-4 left-0 right-0 flex justify-end text-6xl md:text-7xl font-bold opacity-10 pointer-events-none z-0">
-              <span>AFTER</span>
-            </div>
+        {/* LEFT CONTENT - Increased height */}
+        <div className="lg:col-span-3 px-8 h-full min-h-[500px] flex flex-col justify-center">
+          <span className="text-primary uppercase text-sm tracking-wider font-semibold">
+            Dry Cleaning
+          </span>
 
-            <div
-              ref={containerRef}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-ew-resize select-none z-10"
-              onMouseDown={() => setIsDragging(true)}
-              onTouchStart={() => setIsDragging(true)}
-            >
-              {/* Before Image (Dirty) */}
-              <div className="absolute inset-0">
-                <div 
-                  className="w-full h-full bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop')`,
-                    filter: 'sepia(30%) brightness(0.8)',
-                  }}
-                />
-              </div>
-
-              {/* After Image (Clean) */}
-              <div
-                className="absolute inset-0 overflow-hidden"
-                style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}
-              >
-                <div 
-                  className="w-full h-full bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop')`,
-                  }}
-                />
-              </div>
-
-              {/* Slider Handle */}
-              <div
-                className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20"
-                style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
-              >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center">
-                  <div className="flex gap-0.5">
-                    <ChevronLeft className="w-4 h-4 text-secondary" />
-                    <ChevronRight className="w-4 h-4 text-secondary" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right - Features */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="lg:col-span-4 space-y-6"
-          >
-            {features.map((feature, index) => (
+          <div className="relative h-[200px] mt-4 mb-6 overflow-hidden">
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="flex gap-4 group"
+                key={currentImageIndex}
+                custom={direction}
+                initial={{ 
+                  opacity: 0, 
+                  x: direction > 0 ? 100 : direction < 0 ? -100 : 0 
+                }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
+                exit={{ 
+                  opacity: 0,
+                  x: direction > 0 ? -100 : 100,
+                  transition: { duration: 0.2 }
+                }}
+                className="absolute inset-0"
               >
-                <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-transparent border-2 border-primary flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                  <feature.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg text-secondary-foreground mb-1">
-                    {feature.title[language]}
-                  </h4>
-                  <p className="text-secondary-foreground/60 text-sm leading-relaxed">
-                    {feature.description[language]}
-                  </p>
-                </div>
+                <h2 className="text-4xl font-bold mb-6 leading-tight">
+                  {imageSets[currentImageIndex].title[language]}
+                </h2>
+
+                <p className="text-secondary-foreground/70">
+                  {imageSets[currentImageIndex].description[language]}
+                </p>
               </motion.div>
-            ))}
-          </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="flex gap-4 mt-8">
+            <button
+              onClick={handlePrev}
+              className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
+            >
+              <ChevronLeft />
+            </button>
+
+            <button
+              onClick={handleNext}
+              className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+
+        {/* CENTER IMAGE CARD - Increased height */}
+        <div className="lg:col-span-6 flex justify-center px-6">
+          <div
+            ref={containerRef}
+            onMouseDown={() => setIsDragging(true)}
+            className="relative w-full max-w-[850px] h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl cursor-ew-resize"
+          >
+          
+
+            {/* BEFORE IMAGE */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${imageSets[currentImageIndex].before})`
+              }}
+            />
+
+            {/* AFTER IMAGE */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${imageSets[currentImageIndex].after})`,
+                clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
+              }}
+            />
+
+            {/* SLIDER LINE */}
+            <div
+              className="absolute top-0 bottom-0 w-[3px] bg-white z-20"
+              style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+            >
+              <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <ChevronLeft className="w-4 h-4 text-black" />
+                <ChevronRight className="w-4 h-4 text-black -ml-2" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT FEATURES - Styled icons */}
+        <div className="lg:col-span-3 px-8 space-y-10">
+          {features.map((f, i) => (
+            <motion.div 
+              key={i} 
+              className="flex gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <div className="flex-shrink-0">
+                <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                  <f.icon className="text-white" size={24} />
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold text-lg mb-2">{f.title[language]}</h4>
+                <p className="text-sm text-secondary-foreground/70 leading-relaxed">
+                  {f.description[language]}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

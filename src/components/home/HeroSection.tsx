@@ -99,8 +99,8 @@
              transition={{ duration: 1.5, repeat: Infinity }}
              className="flex flex-col items-center gap-2 text-primary-foreground/50"
            >
-             <span className="text-xs uppercase tracking-wider">Scroll</span>
-             <ChevronDown className="w-5 h-5" />
+             {/* <span className="text-xs uppercase tracking-wider">Scroll</span> */}
+             {/* <ChevronDown className="w-5 h-5" /> */}
            </motion.div>
          </motion.div>
        </div>
@@ -112,3 +112,19 @@
  };
  
  export default HeroSection;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

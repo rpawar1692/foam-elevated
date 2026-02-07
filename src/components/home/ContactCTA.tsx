@@ -9,15 +9,11 @@ const ContactCTA = () => {
 
   return (
     <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-      {/* Parallax Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1920&auto=format&fit=crop')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-secondary/80" />
-      </div>
+      {/* Primary/10 Background */}
+      <div className="absolute inset-0 bg-primary/10" />
+      
+      {/* Optional Subtle Pattern - Using simpler approach */}
+      <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_1px_1px,#000000_1px,transparent_0)] bg-[length:40px_40px]" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
@@ -27,12 +23,12 @@ const ContactCTA = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-6">
             {language === 'en' 
               ? 'Ready for a Premium Wash?' 
               : 'مستعد لغسيل متميز؟'}
           </h2>
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-white/80 mb-8 max-w-2xl mx-auto">
             {language === 'en'
               ? 'Book your appointment today and experience the difference of professional car care.'
               : 'احجز موعدك اليوم واستمتع بتجربة العناية الاحترافية بالسيارات.'}
@@ -45,7 +41,7 @@ const ContactCTA = () => {
               <Button 
                 variant="primary" 
                 size="xl" 
-                className="btn-shine text-lg px-10 py-6 rounded-full"
+                className="btn-shine text-lg px-10 py-6 rounded-full shadow-lg"
               >
                 {language === 'en' ? 'Contact Us' : 'تواصل معنا'}
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -60,13 +56,13 @@ const ContactCTA = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.1 }}
         viewport={{ once: true }}
-        className="absolute bottom-0 left-0 w-64 h-64 bg-primary rounded-full blur-3xl"
+        className="absolute bottom-0 left-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl"
       />
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.1 }}
         viewport={{ once: true }}
-        className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl"
+        className="absolute top-0 right-0 w-96 h-96 bg-primary/30 rounded-full blur-3xl"
       />
     </section>
   );

@@ -13,6 +13,9 @@ const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { items } = useCart();
   const location = useLocation();
+  const heroPages = ['/about', '/services', '/packages', '/shop','/contact'];
+const isHeroPage = heroPages.includes(location.pathname);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,9 +49,12 @@ const Header = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'py-3 bg-secondary/95 backdrop-blur-xl shadow-lg'
-          : 'py-4 bg-transparent'
+      isScrolled
+  ? 'py-3 bg-secondary/95 backdrop-blur-xl shadow-lg'
+  : isHeroPage
+    ? 'py-4 bg-transparent'
+    : 'py-4 bg-transparent'
+
       }`}
     >
       <div className="container-premium px-4 sm:px-6">

@@ -66,7 +66,7 @@ const TestimonialsSlider = () => {
   };
 
   return (
-    <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[90vh] min-h-[500px] flex items-center justify-center overflow-hidden">
       {/* Parallax Background - Car Interior */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-fixed"
