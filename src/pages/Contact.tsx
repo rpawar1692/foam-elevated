@@ -4,11 +4,11 @@ import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import InnerPageBanner from '@/components/layout/InnerPageBanner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import heroImage from '@/assets/hero-car-wash.jpg';
 
 const Contact = () => {
   const { t, language } = useLanguage();
@@ -51,8 +51,8 @@ const Contact = () => {
     },
     {
       icon: Clock,
-      title: { en: 'Hours', ar: 'ساعات العمل' },
-      details: { en: 'Sat-Thu: 8AM-10PM, Fri: 2PM-10PM', ar: 'السبت-الخميس: 8ص-10م، الجمعة: 2م-10م' },
+      title: { en: 'Working Hours', ar: 'ساعات العمل' },
+      details: { en: 'Sat-Thu: 8AM-10PM', ar: 'السبت-الخميس: 8ص-10م' },
     },
   ];
 
@@ -64,148 +64,39 @@ const Contact = () => {
       transition={{ duration: 0.5 }}
     >
       <Header />
-      <main >
-        {/* Hero Banner */}
-        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-          >
-            <div className="absolute inset-0 bg-secondary/80" />
-          </div>
-          <div className="relative z-10 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4"
-            >
-              {t('contact')}
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold text-white"
-            >
-              {t('contactSubtitle')}
-            </motion.h1>
-          </div>
-        </section>
+      <main>
+        {/* Inner Page Banner */}
+        <InnerPageBanner 
+          title={language === 'en' ? 'Contact Us' : 'تواصل معنا'}
+          subtitle={t('contact')}
+        />
 
-        {/* Contact Form Section */}
-        <section className="section-padding bg-background">
+        {/* Contact Info Cards - 4 Columns */}
+        <section className="py-12 bg-background">
           <div className="container-premium">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Contact Form */}
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                <h2 className="text-3xl font-bold text-foreground mb-8">
-                  {t('sendMessage')}
-                </h2>
-                <form
-                  onSubmit={handleSubmit}
-                  className="bg-card rounded-3xl p-8 shadow-xl space-y-6"
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactInfo.map((info, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-card rounded-2xl p-6 text-center shadow-md hover:shadow-lg transition-shadow"
                 >
-                  <div>
-                    <label className="block text-sm font-medium text-card-foreground mb-2">
-                      {t('yourName')} *
-                    </label>
-                    <Input
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder={language === 'en' ? 'John Doe' : 'الاسم الكامل'}
-                      className="w-full"
-                    />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                    <info.icon className="w-7 h-7 text-primary" />
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-card-foreground mb-2">
-                      {t('yourEmail')} *
-                    </label>
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="john@example.com"
-                      className="w-full"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-card-foreground mb-2">
-                      {t('yourPhone')}
-                    </label>
-                    <Input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+971 50 000 0000"
-                      className="w-full"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-card-foreground mb-2">
-                      {t('yourMessage')} *
-                    </label>
-                    <Textarea
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder={language === 'en' ? 'How can we help you?' : 'كيف يمكننا مساعدتك؟'}
-                      rows={5}
-                      className="w-full resize-none"
-                    />
-                  </div>
-
-                  <Button type="submit" variant="primary" size="xl" className="w-full btn-shine">
-                    <Send className="w-5 h-5 mr-2" />
-                    {t('sendMessage')}
-                  </Button>
-                </form>
-              </motion.div>
-
-              {/* Contact Info */}
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                <h2 className="text-3xl font-bold text-foreground mb-8">
-                  {language === 'en' ? 'Get in Touch' : 'تواصل معنا'}
-                </h2>
-
-                <div className="space-y-4 mb-10">
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="flex items-start gap-4 p-5 rounded-xl bg-muted hover:bg-muted/80 transition-colors"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <info.icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-foreground">{info.title[language]}</h4>
-                        <p className="text-muted-foreground">{info.details[language]}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+                  <h4 className="font-bold text-foreground mb-2">{info.title[language]}</h4>
+                  <p className="text-muted-foreground text-sm">{info.details[language]}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Full Width Map */}
-        <section className="h-[400px] md:h-[500px]">
+        <section className="h-[400px] md:h-[450px]">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462118.02491053085!2d54.89782413168858!3d25.076280448264477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2s!4v1704067200000!5m2!1sen!2s"
             width="100%"
@@ -216,6 +107,95 @@ const Contact = () => {
             referrerPolicy="no-referrer-when-downgrade"
             title="FOAM Car Wash Location"
           />
+        </section>
+
+        {/* Contact Form - Centered */}
+        <section className="section-padding bg-muted">
+          <div className="container-premium max-w-2xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-8"
+            >
+              <h2 className="text-3xl font-bold text-foreground mb-2">
+                {t('sendMessage')}
+              </h2>
+              <p className="text-muted-foreground">
+                {language === 'en' 
+                  ? "We'd love to hear from you. Send us a message!"
+                  : 'نحب أن نسمع منك. أرسل لنا رسالة!'}
+              </p>
+            </motion.div>
+
+            <motion.form
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              onSubmit={handleSubmit}
+              className="bg-card rounded-3xl p-8 shadow-xl space-y-6"
+            >
+              <div>
+                <label className="block text-sm font-medium text-card-foreground mb-2">
+                  {t('yourName')} *
+                </label>
+                <Input
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder={language === 'en' ? 'John Doe' : 'الاسم الكامل'}
+                  className="w-full rounded-xl"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
+                    {t('yourEmail')} *
+                  </label>
+                  <Input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@example.com"
+                    className="w-full rounded-xl"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
+                    {t('yourPhone')}
+                  </label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+971 50 000 0000"
+                    className="w-full rounded-xl"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-card-foreground mb-2">
+                  {t('yourMessage')} *
+                </label>
+                <Textarea
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder={language === 'en' ? 'How can we help you?' : 'كيف يمكننا مساعدتك؟'}
+                  rows={5}
+                  className="w-full resize-none rounded-xl"
+                />
+              </div>
+
+              <Button type="submit" variant="primary" size="xl" className="w-full btn-shine rounded-full">
+                <Send className="w-5 h-5 mr-2" />
+                {t('sendMessage')}
+              </Button>
+            </motion.form>
+          </div>
         </section>
       </main>
       <Footer />
