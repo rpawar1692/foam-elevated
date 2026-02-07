@@ -2,12 +2,11 @@ import { motion } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/home/HeroSection';
-import ServicesPreview from '@/components/home/ServicesPreview';
-import ProductsCarousel from '@/components/home/ProductsCarousel';
+import WhatWeDoSection from '@/components/home/WhatWeDoSection';
+import WashingPriceSection from '@/components/home/WashingPriceSection';
+import BeforeAfterSection from '@/components/home/BeforeAfterSection';
 import TestimonialsSlider from '@/components/home/TestimonialsSlider';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
-import AboutUsSection from '@/components/home/AboutUsSection';
-import BeforeAfterSection from '@/components/home/BeforeAfterSection';
 import ContactCTA from '@/components/home/ContactCTA';
 
 const Index = () => {
@@ -21,11 +20,10 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <AboutUsSection />
+        <WhatWeDoSection />
+        <WashingPriceSection />
         <BeforeAfterSection />
-        <ServicesPreview />
         <WhyChooseUs />
-        <ProductsCarousel />
         <TestimonialsSlider />
         <ContactCTA />
       </main>

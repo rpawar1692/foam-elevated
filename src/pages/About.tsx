@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
-import { Award, Users, Target, Heart, Leaf, Shield, Star } from 'lucide-react';
+import { Award, Users, Target, Heart, Leaf, Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import InnerPageBanner from '@/components/layout/InnerPageBanner';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 import shopExterior from '@/assets/shop-exterior.jpg';
-import heroImage from '@/assets/hero-car-wash.jpg';
 
 const About = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
 
   const highlights = [
     {
@@ -32,49 +35,6 @@ const About = () => {
       description: {
         en: 'Certified professionals with passion',
         ar: 'محترفون معتمدون بشغف',
-      },
-    },
-  ];
-
-  const timeline = [
-    {
-      year: '2018',
-      title: { en: 'Founded', ar: 'التأسيس' },
-      description: {
-        en: 'FOAM Car Wash was born from a passion for automotive excellence',
-        ar: 'ولدت فوم غسيل السيارات من شغف بالتميز في عالم السيارات',
-      },
-    },
-    {
-      year: '2019',
-      title: { en: 'First Location', ar: 'الموقع الأول' },
-      description: {
-        en: 'Opened our flagship detailing center in Dubai',
-        ar: 'افتتحنا مركز التفصيل الرئيسي في دبي',
-      },
-    },
-    {
-      year: '2021',
-      title: { en: 'Product Launch', ar: 'إطلاق المنتجات' },
-      description: {
-        en: 'Launched our premium car care product line',
-        ar: 'أطلقنا خط منتجات العناية المتميزة بالسيارات',
-      },
-    },
-    {
-      year: '2023',
-      title: { en: 'Expansion', ar: 'التوسع' },
-      description: {
-        en: 'Expanded to multiple locations across the UAE',
-        ar: 'توسعنا إلى مواقع متعددة في جميع أنحاء الإمارات',
-      },
-    },
-    {
-      year: '2024',
-      title: { en: 'The Future', ar: 'المستقبل' },
-      description: {
-        en: 'Continuing to set the standard for premium car care',
-        ar: 'نستمر في وضع معايير العناية المتميزة بالسيارات',
       },
     },
   ];
@@ -123,32 +83,11 @@ const About = () => {
     >
       <Header />
       <main>
-        {/* Hero Banner */}
-        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-          >
-            <div className="absolute inset-0 bg-secondary/80" />
-          </div>
-          <div className="relative z-10 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4"
-            >
-              {t('about')}
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold text-white"
-            >
-              {t('aboutSubtitle')}
-            </motion.h1>
-          </div>
-        </section>
+        {/* Inner Page Banner */}
+        <InnerPageBanner 
+          title={language === 'en' ? 'About Us' : 'من نحن'}
+          subtitle={language === 'en' ? 'The Car Care Project' : 'مشروع العناية بالسيارات'}
+        />
 
         {/* Highlights Section */}
         <section className="py-16 bg-background">
@@ -180,7 +119,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Story Section */}
+        {/* Story Section with Side-by-Side Images */}
         <section className="section-padding bg-muted">
           <div className="container-premium">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -191,7 +130,7 @@ const About = () => {
                 transition={{ duration: 0.8 }}
               >
                 <span className="text-primary font-semibold text-sm uppercase tracking-wider mb-4 block">
-                  {t('ourStory')}
+                  {language === 'en' ? 'Our Story' : 'قصتنا'}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                   {language === 'en'
@@ -206,28 +145,41 @@ const About = () => {
                   </p>
                   <p>
                     {language === 'en'
-                      ? 'Our team of certified professionals uses only premium products and the latest techniques to deliver results that exceed expectations. Every vehicle that enters our facility receives the attention and care it deserves.'
-                      : 'يستخدم فريقنا من المحترفين المعتمدين فقط المنتجات المتميزة وأحدث التقنيات لتقديم نتائج تفوق التوقعات. كل سيارة تدخل مرفقنا تحصل على الاهتمام والعناية التي تستحقها.'}
+                      ? 'Our team of certified professionals uses only premium products and the latest techniques to deliver results that exceed expectations.'
+                      : 'يستخدم فريقنا من المحترفين المعتمدين فقط المنتجات المتميزة وأحدث التقنيات لتقديم نتائج تفوق التوقعات.'}
                   </p>
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="relative"
-              >
-                <div className="aspect-[4/3] rounded-3xl overflow-hidden">
+              {/* Two Side-by-Side Images */}
+              <div className="grid grid-cols-2 gap-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="aspect-[3/4] rounded-2xl overflow-hidden"
+                >
                   <img
                     src={shopExterior}
                     alt="FOAM Car Wash"
                     className="w-full h-full object-cover"
                   />
-                </div>
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary rounded-3xl -z-10" />
-              </motion.div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="aspect-[3/4] rounded-2xl overflow-hidden mt-8"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=600&auto=format&fit=crop"
+                    alt="Car Detailing"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -242,8 +194,11 @@ const About = () => {
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
             >
+              <span className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4">
+                {language === 'en' ? 'OUR VALUES' : 'قيمنا'}
+              </span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                {language === 'en' ? 'Our Values' : 'قيمنا'}
+                {language === 'en' ? 'What We Stand For' : 'ما ندافع عنه'}
               </h2>
             </motion.div>
 
@@ -272,55 +227,45 @@ const About = () => {
           </div>
         </section>
 
-        {/* Timeline Section */}
-        <section className="section-padding bg-secondary text-secondary-foreground">
-          <div className="container-premium">
+        {/* Special Service Section - Parallax */}
+        <section className="relative h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-fixed"
+            style={{ 
+              backgroundImage: `url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1920&auto=format&fit=crop')`,
+            }}
+          >
+            <div className="absolute inset-0 bg-secondary/80" />
+          </div>
+
+          <div className="relative z-10 container-premium px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
+              transition={{ duration: 0.8 }}
+              className="max-w-2xl"
             >
-              <h2 className="text-3xl md:text-4xl font-bold">
-                {language === 'en' ? 'Our Journey' : 'رحلتنا'}
+              <span className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4">
+                {language === 'en' ? 'Special Service' : 'خدمة خاصة'}
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                {language === 'en' 
+                  ? 'Complete Interior Dry Cleaning' 
+                  : 'تنظيف داخلي جاف كامل'}
               </h2>
+              <p className="text-white/70 text-lg mb-8 leading-relaxed">
+                {language === 'en'
+                  ? 'Heightened care services focus on every detail, ensuring your car gets a spotless and thorough wash. Our expert team uses premium products for exceptional results.'
+                  : 'خدمات العناية المكثفة تركز على كل التفاصيل، لضمان حصول سيارتك على غسيل شامل ونظيف. يستخدم فريقنا الخبير منتجات متميزة للحصول على نتائج استثنائية.'}
+              </p>
+              <Link to="/services">
+                <Button variant="primary" size="xl" className="btn-shine rounded-full px-10">
+                  {language === 'en' ? 'Read More' : 'اقرأ المزيد'}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
             </motion.div>
-
-            <div className="relative max-w-4xl mx-auto">
-              {/* Timeline Line */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 -translate-x-1/2 hidden md:block" />
-
-              {timeline.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className={`relative flex items-center gap-8 mb-12 ${
-                    index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-                >
-                  {/* Content */}
-                  <div className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                    <span className="text-primary font-bold text-2xl">{item.year}</span>
-                    <h3 className="font-bold text-xl text-secondary-foreground mt-2">
-                      {item.title[language]}
-                    </h3>
-                    <p className="text-secondary-foreground/70 mt-2">
-                      {item.description[language]}
-                    </p>
-                  </div>
-
-                  {/* Dot */}
-                  <div className="hidden md:flex w-4 h-4 rounded-full bg-primary ring-4 ring-primary/30 flex-shrink-0" />
-
-                  {/* Spacer */}
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
           </div>
         </section>
       </main>

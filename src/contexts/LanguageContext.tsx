@@ -39,7 +39,7 @@ export const translations: Translations = {
   
   // Products
   ourProducts: { en: 'Our Products', ar: 'منتجاتنا' },
-  productsSubtitle: { en: 'Premium car care products for the enthusiast', ar: 'منتجات عناية متميزة للسيارات لعشاق السيارات' },
+  productsSubtitle: { en: 'Premium Car Care Products', ar: 'منتجات العناية المتميزة بالسيارات' },
   addToCart: { en: 'Add to Cart', ar: 'أضف للسلة' },
   viewAll: { en: 'View All Products', ar: 'عرض جميع المنتجات' },
   

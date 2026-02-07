@@ -5,10 +5,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import InnerPageBanner from '@/components/layout/InnerPageBanner';
 import { Button } from '@/components/ui/button';
 import { products } from '@/data/products';
 import { toast } from 'sonner';
-import heroImage from '@/assets/hero-car-wash.jpg';
 
 const Shop = () => {
   const { t, language } = useLanguage();
@@ -42,33 +42,12 @@ const Shop = () => {
       transition={{ duration: 0.5 }}
     >
       <Header />
-      <main >
-        {/* Hero Banner */}
-        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-          >
-            <div className="absolute inset-0 bg-secondary/80" />
-          </div>
-          <div className="relative z-10 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4"
-            >
-              {t('shop')}
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold text-white"
-            >
-              {t('productsSubtitle')}
-            </motion.h1>
-          </div>
-        </section>
+      <main>
+        {/* Inner Page Banner */}
+        <InnerPageBanner 
+          title={t('productsSubtitle')}
+          subtitle={t('shop')}
+        />
  
          {/* Shop Content */}
          <section className="section-padding bg-background">

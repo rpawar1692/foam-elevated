@@ -4,13 +4,13 @@ import { Droplets, Sparkles, Car, Shield, Calendar, Clock, Check, Phone } from '
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import InnerPageBanner from '@/components/layout/InnerPageBanner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import serviceExterior from '@/assets/service-exterior.jpg';
 import serviceInterior from '@/assets/service-interior.jpg';
 import servicePolish from '@/assets/service-polish.jpg';
-import heroImage from '@/assets/hero-car-wash.jpg';
 
 const Services = () => {
   const { t, language } = useLanguage();
@@ -112,43 +112,12 @@ const Services = () => {
       transition={{ duration: 0.5 }}
     >
       <Header />
-      <main >
-        {/* Hero Banner */}
-        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-          >
-            <div className="absolute inset-0 bg-secondary/80" />
-          </div>
-          <div className="relative z-10 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-primary font-semibold text-sm uppercase tracking-widest block mb-4"
-            >
-              {t('ourServices')}
-            </motion.span>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold text-white"
-            >
-              {t('servicesSubtitle')}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-white/70 text-lg mt-4 max-w-2xl mx-auto px-4"
-            >
-              {language === 'en'
-                ? 'Choose from our range of premium car care services designed to keep your vehicle in showroom condition.'
-                : 'اختر من مجموعة خدمات العناية المتميزة بالسيارات المصممة للحفاظ على سيارتك في حالة صالة العرض.'}
-            </motion.p>
-          </div>
-        </section>
+      <main>
+        {/* Inner Page Banner */}
+        <InnerPageBanner 
+          title={t('servicesSubtitle')}
+          subtitle={t('ourServices')}
+        />
 
         {/* Services Grid */}
         <section className="section-padding bg-background">
